@@ -145,7 +145,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1 }}
               className="font-serif text-3xl md:text-4xl font-bold mb-8 text-center"
             >
-              Puisi Papan Atas
+              Puisi Lembar Utama
             </motion.h2>
             {featuredPoems.length > 0 ? (
               <motion.div
