@@ -26,7 +26,7 @@ export async function generateMetadata(
 
   const ogImage = poem.coverImage
     ? poem.coverImage
-    : `${SITE_URL}/og-image.jpg`;
+    : `${SITE_URL}/og-image.png`;
 
   return {
     title: `${poem.title} – Zurayna`,
