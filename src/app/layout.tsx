@@ -19,7 +19,7 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Zurayna - Kumpulan Puisi Pribadi",
+  title: "Zurayna",
   description: "Ruang pribadi untuk kumpulan puisi dengan nuansa tenang dan kontemplatif.",
   keywords: ["puisi", "sajak", "literasi", "karya sastra", "Zurayna"],
   authors: [{ name: "Zurayna" }],
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     icon: "/logo.svg",
   },
   openGraph: {
-    title: "Zurayna - Kumpulan Puisi",
-    description: "Ruang pribadi untuk kumpulan puisi",
+    title: "Zurayna",
+    description: "Ruang pribadi untuk sebuah puisi",
     type: "website",
   },
 };

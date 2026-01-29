@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import Footer from '@/components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, User, BookOpen, X } from 'lucide-react'; // [UPDATE] Tambah icon X
+import { Search, User, BookOpen, X } from 'lucide-react';
 
 interface Poem {
   id: string;
@@ -30,7 +30,6 @@ export default function CollectionPage() {
     fetch('/api/poems')
       .then(r => r.json())
       .then(data => {
-        // [FIX] Pastikan data adalah Array biar tidak crash
         if (Array.isArray(data)) {
           setPoems(data);
         } else {
@@ -45,26 +44,21 @@ export default function CollectionPage() {
       });
   }, []);
 
-  // [FIX] Logika Filter Lebih Aman (Tahan Spasi & Huruf Besar/Kecil)
   const filteredPoems = useMemo(() => {
     return poems.filter(poem => {
-      // 1. Filter Pencarian
       const searchLower = searchTerm.toLowerCase();
       const matchTitle = poem.title.toLowerCase().includes(searchLower);
       const matchExcerpt = poem.excerpt && poem.excerpt.toLowerCase().includes(searchLower);
       
       if (!matchTitle && !matchExcerpt) return false;
 
-      // 2. Filter Kategori
       if (!selectedCategory) return true;
       
-      // Bersihkan spasi depan/belakang biar akurat
       const cleanPoemCategory = (poem.category || '').trim();
       return cleanPoemCategory === selectedCategory;
     });
   }, [searchTerm, poems, selectedCategory]);
 
-  // [FIX] Ambil Kategori Unik dengan Bersih
   const categories = useMemo(() => {
     const categorySet = new Set<string>();
     poems.forEach(poem => {
@@ -75,12 +69,11 @@ export default function CollectionPage() {
     return Array.from(categorySet).sort();
   }, [poems]);
 
-  // [FITUR BARU] Toggle Category (Klik lagi untuk matikan filter)
   const toggleCategory = (category: string) => {
     if (selectedCategory === category) {
-      setSelectedCategory(null); // Matikan jika sudah aktif
+      setSelectedCategory(null);
     } else {
-      setSelectedCategory(category); // Aktifkan baru
+      setSelectedCategory(category);
     }
   };
 
@@ -109,7 +102,6 @@ export default function CollectionPage() {
     );
   }
 
-  // Tambahan Import Loader2 manual jika belum ada (opsional, pakai div biasa juga ok)
   function Loader2(props: any) {
      return <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56" /></svg>
   }
@@ -205,7 +197,7 @@ export default function CollectionPage() {
           <AnimatePresence mode='wait'>
             {filteredPoems.length > 0 ? (
               <motion.div
-                key={selectedCategory || 'all'} // Reset animasi saat kategori berubah
+                key={selectedCategory || 'all'}
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -214,10 +206,14 @@ export default function CollectionPage() {
                 {filteredPoems.map((poem) => (
                   <motion.div key={poem.id} variants={itemVariants}>
                     <Link href={`/puisi/${poem.slug}`}>
-                      <Card className="group cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden border hover:border-primary/50 flex flex-row h-[160px] md:h-[180px]">
+                      {/* [UPDATE PENTING DISINI] 
+                          1. Mengubah h-[160px] menjadi h-auto min-h-[160px] agar bisa memanjang ke bawah.
+                          2. Card akan menyesuaikan tinggi konten teks.
+                      */}
+                      <Card className="group cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden border hover:border-primary/50 flex flex-row h-auto min-h-[160px] md:h-[180px]">
                         
-                        {/* Image Section */}
-                        <div className="w-[130px] md:w-[180px] relative shrink-0 overflow-hidden">
+                        {/* Image Section - Dibiarkan relative dan shrink-0 agar tidak gepeng */}
+                        <div className="w-[130px] md:w-[180px] relative shrink-0 overflow-hidden bg-muted">
                             {poem.coverImage ? (
                               <Image
                                 src={poem.coverImage}
@@ -231,12 +227,12 @@ export default function CollectionPage() {
                                   <BookOpen className="h-8 w-8" />
                               </div>
                             )}
-                            {/* Overlay Gradient */}
                             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
                         </div>
 
                         {/* Content Section */}
-                        <CardContent className="flex-1 p-4 md:p-5 flex flex-col justify-center min-w-0 bg-card">
+                        {/* [UPDATE] padding diubah menjadi p-3 sm:p-5 agar di HP lebih lega space-nya */}
+                        <CardContent className="flex-1 p-3 sm:p-5 flex flex-col justify-center min-w-0 bg-card">
                           <div className="flex items-start justify-between gap-2 mb-2">
                             <h3 className="font-serif text-lg md:text-xl font-bold group-hover:text-primary transition-colors line-clamp-1">
                               {poem.title}
@@ -256,6 +252,7 @@ export default function CollectionPage() {
                           </div>
 
                           {poem.excerpt && (
+                            // line-clamp-2 tetap ada untuk menjaga kerapian, tapi karena container sudah h-auto, teks tidak akan terpotong paksa di bawah
                             <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-3 font-serif leading-relaxed group-hover:text-foreground/80 transition-colors">
                               {poem.excerpt}
                             </p>

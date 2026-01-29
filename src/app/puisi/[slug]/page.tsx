@@ -142,7 +142,7 @@ export default function PoemDetailPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex justify-between items-center mt-8 gap-4"
           >
-            <Link href="/" className="flex-1">
+            <Link href="/kumpulan-puisi" className="flex-1">
               <Button variant="outline" className="w-full group">
                 <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
                 Kembali

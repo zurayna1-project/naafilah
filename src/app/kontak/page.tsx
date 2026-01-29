@@ -95,7 +95,7 @@ export default function ContactPage() {
                     <Mail className="w-6 h-6 text-primary mt-1" />
                     <div>
                       <h3 className="font-medium">Email</h3>
-                      <p className="text-sm text-muted-foreground">admin@Zurayna.com</p>
+                      <p className="text-sm text-muted-foreground">zurayna1@gmail.com</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
@@ -103,7 +103,7 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-medium">Tentang</h3>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        Zurayna adalah wadah ekspresi rasa melalui kata-kata. 
+                        Wadah ekspresi rasa melalui kata-kata. 
                         Setiap pesan yang masuk sangat berarti bagi pengembangan ruang ini.
                       </p>
                     </div>
