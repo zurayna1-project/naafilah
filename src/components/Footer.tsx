@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="flex gap-6">
             {/* Instagram */}
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/zurayna__"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"
